@@ -1,8 +1,0 @@
-{
-  "schemaVersion": "1.0",
-  "models": [
-    { "id": "cube-base", "name": "Moduł standardowy A", "version": "0.2.0", "url": "/models/cube-base.gltf", "sizeBytes": 1220, "dimensions": { "widthX": 0.9, "heightY": 2.2, "lengthZ": 2.72 }, "heightPolicy": { "type": "room-tier-clearance", "thresholdRoomHeightY": 3, "regularHeightY": 2.2, "tallHeightY": 2.95, "ceilingClearanceY": 0.1 } },
-    { "id": "cube-wide", "name": "Moduł standardowy B", "version": "0.2.0", "url": "/models/cube-wide.gltf", "sizeBytes": 1220, "dimensions": { "widthX": 0.9, "heightY": 2.2, "lengthZ": 2.72 }, "heightPolicy": { "type": "room-tier-clearance", "thresholdRoomHeightY": 3, "regularHeightY": 2.2, "tallHeightY": 2.95, "ceilingClearanceY": 0.1 } },
-    { "id": "cube-tall", "name": "Moduł standardowy C", "version": "0.2.0", "url": "/models/cube-tall.gltf", "sizeBytes": 1220, "dimensions": { "widthX": 0.9, "heightY": 2.2, "lengthZ": 2.72 }, "heightPolicy": { "type": "room-tier-clearance", "thresholdRoomHeightY": 3, "regularHeightY": 2.2, "tallHeightY": 2.95, "ceilingClearanceY": 0.1 } }
-  ]
-}
