@@ -1,4 +1,4 @@
-const APP_CACHE = "konfigurator3d-app-v5";
+const APP_CACHE = "konfigurator3d-app-v6";
 const MODEL_CACHE = "konfigurator3d-models-v3";
 const OWNED_CACHE_PREFIX = "konfigurator3d-";
 const ACTIVE_CACHES = new Set([APP_CACHE, MODEL_CACHE]);
