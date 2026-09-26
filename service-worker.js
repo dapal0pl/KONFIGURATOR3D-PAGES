@@ -1,7 +1,10 @@
-const APP_CACHE = "konfigurator3d-app-v7";
-const MODEL_CACHE = "konfigurator3d-models-v3";
-const OWNED_CACHE_PREFIX = "konfigurator3d-";
-const ACTIVE_CACHES = new Set([APP_CACHE, MODEL_CACHE]);
+const APP_CACHE = "konfigurator3d-app-v8";
+const APP_CACHE_PREFIX = "konfigurator3d-app-";
+const LEGACY_MODEL_CACHE = "konfigurator3d-models-v3";
+const MODEL_CACHE_PREFIX = "konfigurator3d-models-generation-";
+const CATALOG_METADATA_CACHE = "konfigurator3d-model-catalog-metadata-v1";
+const CATALOG_READY_PATH = "/__konfigurator3d-model-catalog-ready__";
+const ACTIVE_CATALOG_PATH = "/__konfigurator3d-active-model-catalog__";
 const APP_SHELL = ["/", "/index.html", "/manifest.webmanifest", "/model-catalog.json"];
 
 self.addEventListener("install", (event) => {
@@ -13,7 +16,7 @@ self.addEventListener("activate", (event) => {
     caches.keys().then(async (keys) => {
       await Promise.all(
         keys
-          .filter((key) => key.startsWith(OWNED_CACHE_PREFIX) && !ACTIVE_CACHES.has(key))
+          .filter((key) => key.startsWith(APP_CACHE_PREFIX) && key !== APP_CACHE)
           .map((key) => caches.delete(key)),
       );
       await self.clients.claim();
@@ -31,13 +34,9 @@ self.addEventListener("fetch", (event) => {
 
   if (url.pathname.startsWith("/models/")) {
     event.respondWith(
-      caches.open(MODEL_CACHE).then(async (cache) => {
-        const cached = event.request.cache === "reload" ? undefined : await cache.match(event.request);
-        if (cached) return cached;
-        const response = await fetch(event.request);
-        if (response.ok) await cache.put(event.request, response.clone());
-        return response;
-      }),
+      event.request.cache === "reload"
+        ? fetch(event.request)
+        : findReadyModelResponse(event.request).then((cached) => cached ?? fetch(event.request)),
     );
     return;
   }
@@ -61,3 +60,27 @@ self.addEventListener("fetch", (event) => {
     }),
   );
 });
+
+async function findReadyModelResponse(request) {
+  const metadata = await caches.open(CATALOG_METADATA_CACHE);
+  const activeResponse = await metadata.match(ACTIVE_CATALOG_PATH);
+  if (activeResponse) {
+    try {
+      const receipt = await activeResponse.json();
+      const cacheNames = await caches.keys();
+      if (typeof receipt.cacheName === "string" && receipt.cacheName.startsWith(MODEL_CACHE_PREFIX) && cacheNames.includes(receipt.cacheName)) {
+        const cache = await caches.open(receipt.cacheName);
+        const readyResponse = await cache.match(CATALOG_READY_PATH);
+        const ready = readyResponse ? await readyResponse.json() : null;
+        if (ready?.catalogVersion === receipt.catalogVersion && ready?.signature === receipt.catalogSignature) {
+          const cached = await cache.match(request);
+          if (cached) return cached;
+        }
+      }
+    } catch {
+      // Uszkodzony wskaźnik nie aktywuje niezweryfikowanej generacji.
+    }
+  }
+
+  return caches.open(LEGACY_MODEL_CACHE).then((cache) => cache.match(request));
+}

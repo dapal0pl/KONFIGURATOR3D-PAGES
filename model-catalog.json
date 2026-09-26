@@ -1,8 +1,9 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "1.1",
+  "catalogVersion": "2026.09.25.1",
   "models": [
-    { "id": "cube-base", "name": "Moduł standardowy A", "version": "0.2.0", "url": "/models/cube-base.gltf", "sizeBytes": 1220, "dimensions": { "widthX": 0.9, "heightY": 2.2, "lengthZ": 2.72 }, "heightPolicy": { "type": "room-tier-clearance", "thresholdRoomHeightY": 3, "regularHeightY": 2.2, "tallHeightY": 2.95, "ceilingClearanceY": 0.1 } },
-    { "id": "cube-wide", "name": "Moduł standardowy B", "version": "0.2.0", "url": "/models/cube-wide.gltf", "sizeBytes": 1220, "dimensions": { "widthX": 0.9, "heightY": 2.2, "lengthZ": 2.72 }, "heightPolicy": { "type": "room-tier-clearance", "thresholdRoomHeightY": 3, "regularHeightY": 2.2, "tallHeightY": 2.95, "ceilingClearanceY": 0.1 } },
-    { "id": "cube-tall", "name": "Moduł standardowy C", "version": "0.2.0", "url": "/models/cube-tall.gltf", "sizeBytes": 1220, "dimensions": { "widthX": 0.9, "heightY": 2.2, "lengthZ": 2.72 }, "heightPolicy": { "type": "room-tier-clearance", "thresholdRoomHeightY": 3, "regularHeightY": 2.2, "tallHeightY": 2.95, "ceilingClearanceY": 0.1 } }
+    { "id": "cube-base", "name": "Moduł standardowy A", "version": "0.2.0", "url": "/models/cube-base.gltf", "sizeBytes": 1048, "sha256": "1d93df82f75fb59f07c079e5fe37e2d52e78fb045be37c203ca5bf4faabeb695", "dimensions": { "widthX": 0.9, "heightY": 2.2, "lengthZ": 2.72 }, "heightPolicy": { "type": "room-tier-clearance", "thresholdRoomHeightY": 3, "regularHeightY": 2.2, "tallHeightY": 2.95, "ceilingClearanceY": 0.1 } },
+    { "id": "cube-wide", "name": "Moduł standardowy B", "version": "0.2.0", "url": "/models/cube-wide.gltf", "sizeBytes": 1068, "sha256": "6c5cb2852d6e6574a987cc164c2023aecfdce9036c21c4156b30ad8c915d50f5", "dimensions": { "widthX": 0.9, "heightY": 2.2, "lengthZ": 2.72 }, "heightPolicy": { "type": "room-tier-clearance", "thresholdRoomHeightY": 3, "regularHeightY": 2.2, "tallHeightY": 2.95, "ceilingClearanceY": 0.1 } },
+    { "id": "cube-tall", "name": "Moduł standardowy C", "version": "0.2.0", "url": "/models/cube-tall.gltf", "sizeBytes": 1070, "sha256": "2a51660a144fa698e0b61db6d29d00b19ba04d1e5c332e9769459f248547a7e2", "dimensions": { "widthX": 0.9, "heightY": 2.2, "lengthZ": 2.72 }, "heightPolicy": { "type": "room-tier-clearance", "thresholdRoomHeightY": 3, "regularHeightY": 2.2, "tallHeightY": 2.95, "ceilingClearanceY": 0.1 } }
   ]
 }
