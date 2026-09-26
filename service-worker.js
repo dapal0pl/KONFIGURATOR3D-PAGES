@@ -1,4 +1,4 @@
-const APP_CACHE = "konfigurator3d-app-v10";
+const APP_CACHE = "konfigurator3d-app-v11";
 const APP_CACHE_PREFIX = "konfigurator3d-app-";
 const LEGACY_MODEL_CACHE = "konfigurator3d-models-v3";
 const MODEL_CACHE_PREFIX = "konfigurator3d-models-generation-";
