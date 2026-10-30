@@ -1,11 +1,11 @@
-const APP_CACHE = "konfigurator3d-app-v20";
+const APP_CACHE = "konfigurator3d-app-v21";
 const APP_CACHE_PREFIX = "konfigurator3d-app-";
 const LEGACY_MODEL_CACHE = "konfigurator3d-models-v3";
 const MODEL_CACHE_PREFIX = "konfigurator3d-models-generation-";
 const CATALOG_METADATA_CACHE = "konfigurator3d-model-catalog-metadata-v1";
 const CATALOG_READY_PATH = "/__konfigurator3d-model-catalog-ready__";
 const ACTIVE_CATALOG_PATH = "/__konfigurator3d-active-model-catalog__";
-const APP_SHELL = ["/", "/index.html", "/manifest.webmanifest", "/model-catalog.json"];
+const APP_SHELL = ["/","/index.html","/manifest.webmanifest","/model-catalog.json","/assets/App-Rsq4bu-M.js","/assets/index-CZKAeLRN.css","/assets/index-DO6lfIgo.js"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(APP_CACHE).then((cache) => cache.addAll(APP_SHELL)));
@@ -32,6 +32,9 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (event.request.method !== "GET" || url.origin !== self.location.origin) return;
 
+  // Account, permissions, release history and administration are never offline cache entries.
+  if (url.pathname === "/api" || url.pathname.startsWith("/api/")) return;
+
   if (url.pathname.startsWith("/models/")) {
     event.respondWith(
       event.request.cache === "reload"
@@ -50,7 +53,7 @@ self.addEventListener("fetch", (event) => {
     caches.open(APP_CACHE).then(async (cache) => {
       try {
         const response = await fetch(event.request);
-        if (response.ok) await cache.put(event.request, response.clone());
+        if (response.ok && !/no-store|private/i.test(response.headers.get("Cache-Control") ?? "")) await cache.put(event.request, response.clone());
         return response;
       } catch (error) {
         const cached = await cache.match(event.request);
