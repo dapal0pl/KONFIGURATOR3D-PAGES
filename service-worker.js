@@ -1,11 +1,11 @@
-const APP_CACHE = "konfigurator3d-app-v23";
+const APP_CACHE = "konfigurator3d-app-v24";
 const APP_CACHE_PREFIX = "konfigurator3d-app-";
 const LEGACY_MODEL_CACHE = "konfigurator3d-models-v3";
 const MODEL_CACHE_PREFIX = "konfigurator3d-models-generation-";
 const CATALOG_METADATA_CACHE = "konfigurator3d-model-catalog-metadata-v1";
 const CATALOG_READY_PATH = "/__konfigurator3d-model-catalog-ready__";
 const ACTIVE_CATALOG_PATH = "/__konfigurator3d-active-model-catalog__";
-const APP_SHELL = ["/","/index.html","/manifest.webmanifest","/model-catalog.json","/assets/App-D8vMTJa6.js","/assets/index-2TqwX3w_.css","/assets/index-D-FlFxrO.js"];
+const APP_SHELL = ["/","/index.html","/manifest.webmanifest","/model-catalog.json","/assets/App-B-9KAHfe.js","/assets/index-2TqwX3w_.css","/assets/index-5wE2qhDp.js"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(APP_CACHE).then((cache) => cache.addAll(APP_SHELL)));
@@ -49,19 +49,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  event.respondWith(
-    caches.open(APP_CACHE).then(async (cache) => {
-      try {
-        const response = await fetch(event.request);
-        if (response.ok && !/no-store|private/i.test(response.headers.get("Cache-Control") ?? "")) await cache.put(event.request, response.clone());
-        return response;
-      } catch (error) {
-        const cached = await cache.match(event.request);
-        if (cached) return cached;
-        throw error;
-      }
-    }),
-  );
+  event.respondWith(fetchAppResponse(event.request));
 });
 
 async function findReadyModelResponse(request) {
@@ -86,4 +74,25 @@ async function findReadyModelResponse(request) {
   }
 
   return caches.open(LEGACY_MODEL_CACHE).then((cache) => cache.match(request));
+}
+
+async function fetchAppResponse(request) {
+  let response;
+  try {
+    response = await fetch(request);
+  } catch (error) {
+    const cached = await caches.open(APP_CACHE).then(cache => cache.match(request)).catch(() => undefined);
+    if (cached) return cached;
+    throw error;
+  }
+
+  if (response.ok && !/no-store|private/i.test(response.headers.get("Cache-Control") ?? "")) {
+    try {
+      const cache = await caches.open(APP_CACHE);
+      await cache.put(request, response.clone());
+    } catch {
+      // A storage failure must not discard a successful network response.
+    }
+  }
+  return response;
 }
