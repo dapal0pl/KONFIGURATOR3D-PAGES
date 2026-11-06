@@ -5,7 +5,7 @@ const MODEL_CACHE_PREFIX = "konfigurator3d-models-generation-";
 const CATALOG_METADATA_CACHE = "konfigurator3d-model-catalog-metadata-v1";
 const CATALOG_READY_PATH = "/__konfigurator3d-model-catalog-ready__";
 const ACTIVE_CATALOG_PATH = "/__konfigurator3d-active-model-catalog__";
-const APP_SHELL = ["/","/index.html","/manifest.webmanifest","/model-catalog.json","/assets/App-Bnq56Duq.js","/assets/index-BVsKKLqY.js","/assets/index-CnlfOZFj.css"];
+const APP_SHELL = ["/","/index.html","/manifest.webmanifest","/model-catalog.json","/assets/App-CWH1Z2hi.js","/assets/index-B2jiz6p4.css","/assets/index-C3X77XJU.js"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(APP_CACHE).then((cache) => cache.addAll(APP_SHELL)));
